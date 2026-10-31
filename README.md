@@ -47,6 +47,7 @@ retail-sales-prediction/
 ├── notebooks/
 │
 ├── src/
+│   └── data_loader.py
 │
 ├── .gitignore
 └── README.md
@@ -54,15 +55,15 @@ retail-sales-prediction/
 
 ### Directory Description
 
-| Directory/File    | Purpose                                                               |
-| ----------------- | --------------------------------------------------------------------- |
-| `data/raw/`       | Contains the original synthetic dataset.                              |
-| `data/processed/` | Will contain processed data generated during the project.             |
-| `images/`         | Will contain charts and visualizations for documentation.             |
-| `notebooks/`      | Will contain notebooks for exploratory analysis and experimentation.  |
-| `src/`            | Will contain reusable Python classes and machine learning components. |
-| `.gitignore`      | Specifies files and directories Git should ignore.                    |
-| `README.md`       | Documents the project, workflow, findings, and results.               |
+| Directory/File    | Purpose                                                              |
+| ----------------- | -------------------------------------------------------------------- |
+| `data/raw/`       | Contains the original synthetic dataset.                             |
+| `data/processed/` | Will contain processed data generated during the project.            |
+| `images/`         | Will contain charts and visualizations for documentation.            |
+| `notebooks/`      | Will contain notebooks for exploratory analysis and experimentation. |
+| `src/`            | Contains reusable Python classes and machine learning components.    |
+| `.gitignore`      | Specifies files and directories Git should ignore.                   |
+| `README.md`       | Documents the project, workflow, findings, and results.              |
 
 ## 📊 Dataset Description
 
@@ -112,6 +113,14 @@ The dataset intentionally includes:
 
 These characteristics provide opportunities to practice realistic data preparation before model training.
 
+Initial dataset inspection identified 47 missing values across three numerical columns:
+
+- `marketing_spend_pkr`: 20 missing values (1.33%).
+- `discount_percent`: 12 missing values (0.80%).
+- `foot_traffic`: 15 missing values (0.99%).
+
+The dataset's structure, column names, data types, missing values, and duplicate records are inspected using a reusable Python class.
+
 **Important:** The dataset is synthetic and is intended for educational purposes. It does not represent verified sales records from an actual retail company.
 
 ## 🛠️ Technologies and Libraries
@@ -131,16 +140,32 @@ The project is expected to use the following tools and libraries:
 
 The project will progressively adopt an object-oriented design to organize the machine learning workflow into reusable components.
 
+The following component has been implemented:
+
+| Class           | Responsibility                                                                    |
+| --------------- | --------------------------------------------------------------------------------- |
+| `DataInspector` | Load the original dataset and perform initial data inspection and quality checks. |
+
+The `DataInspector` class is implemented in `src/data_loader.py` and includes the following methods:
+
+- `load_data()` — Loads the CSV dataset using Pandas and handles missing file errors.
+- `show_preview()` — Displays the first few rows of the dataset.
+- `show_dimensions()` — Displays the dataset shape and column names.
+- `show_info()` — Displays DataFrame information, including data types and non-null counts.
+- `show_missing_data()` — Identifies missing values and calculates their percentages.
+- `show_duplicates()` — Counts duplicate records.
+- `run_all_checks()` — Executes the complete dataset inspection workflow.
+- `_ensure_data_loaded()` — Ensures the dataset is loaded before inspection methods execute.
+
 Planned components include:
 
 | Class              | Responsibility                                      |
 | ------------------ | --------------------------------------------------- |
-| `DataLoader`       | Load the original dataset.                          |
 | `DataPreprocessor` | Handle data-quality issues and prepare features.    |
 | `RegressionModel`  | Create, train, and use the Linear Regression model. |
 | `ModelEvaluator`   | Calculate regression evaluation metrics.            |
 
-These classes will be implemented incrementally as the project progresses. The initial repository currently contains the project structure and dataset; the classes and pipeline have not yet been implemented.
+These components will be implemented incrementally as the project progresses.
 
 ## 📈 Model Evaluation
 
@@ -160,11 +185,11 @@ Actual evaluation results will be added after the model has been trained and tes
 - [x] Create the GitHub repository.
 - [x] Establish the initial directory structure.
 - [x] Generate and add the synthetic dataset.
-- [ ] Load and inspect the dataset.
+- [x] Load and inspect the dataset.
 - [ ] Perform exploratory data analysis.
 - [ ] Identify and resolve data-quality issues.
 - [ ] Prepare features and target variable.
-- [ ] Build the initial OOP components.
+- [x] Build the initial OOP component (`DataInspector`).
 - [ ] Split the data into training and testing sets.
 - [ ] Train the Linear Regression model.
 - [ ] Generate predictions and evaluate performance.
